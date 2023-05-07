@@ -4,7 +4,7 @@ const express = require('express');
 const path = require('path'); 
 const cors = require('cors'); 
 
-const port = process.env.PORT; 
+const port = 5000; 
 
 const app = express();
 
@@ -23,7 +23,6 @@ require("./config/db.js");
 
 // routes 
 const router = require("./routes/Router.js"); 
-
 app.use(router);
 
 app.listen(port, () => { 
