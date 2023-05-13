@@ -13,7 +13,7 @@ const imageStore = multer.diskStorage({
         }
 
         // destino da imagen
-        cd(null, `uploads/${folder}/`);
+        cb(null, `uploads/${folder}/`);
     },
     fileName: (req, file, cb) => {
       // mudar o nome do arquivo 
