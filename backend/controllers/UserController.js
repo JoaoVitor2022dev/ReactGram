@@ -1,8 +1,6 @@
 //  model User
 const User = require("../models/User");
-
-// conection com db
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // ciptografia da senha
 const bcrypt = require("bcryptjs"); 
@@ -132,11 +130,34 @@ const update = async (req, res) => {
 
 }
 
+// Get user by id 
+
+const getUserById = async (req, res) => {
+   const { id } = req.params
+
+   try {
+     
+    const user = await User.findById(id.toString()).select("-password");
+
+    // check if user exist 
+   if (!user) {
+    res.status(404).json({ erros: ["Usuário nao encontrado."] });
+    return
+  }
+
+  res.status(200).json(user);
+
+   } catch (error) {
+    res.status(404).json({ erros: ["Usuário nao existe."] });
+   }
+}
+
 
 module.exports = {
     register,
     login,
     getCurrentUser,
-    update
+    update,
+    getUserById
 }
 
