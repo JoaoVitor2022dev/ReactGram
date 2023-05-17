@@ -81,7 +81,6 @@ const login = async (req, res) => {
 
 
 //  get current logged in user 
-
 const getCurrentUser = async (req, res) => {  
     
   const user = req.user; 
