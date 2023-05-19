@@ -68,7 +68,6 @@ const getAllPhotos = async(req, res) => {
     return res.status(200).json(photos); 
 }
 
-
 // Get user Photos 
 
 const getUserPhotos = async (req, res) => { 
@@ -95,7 +94,6 @@ const getPhotoById = async (req, res) => {
 }
 
 // update de photos 
-
 
 const updatePhoto =  async ( req, res) => {
     const { id } = req.params; 
@@ -155,6 +153,56 @@ const likePhoto = async(req, res) => {
     photo.save()
 
     res.status(200).json({ photoId: id, userId: reqUser._id, message: "A foto foi curtida."})
+}
+
+//  Comment functionality 
+const commentPhoto = async(req, res) => {
+   
+    const { id } = req.params 
+
+    const { comment } = req.body
+
+    const reqUser = req.user 
+    
+    // found user by reqUser
+    const user = await User.findById(reqUser._id); 
+    
+    // found photo by id
+    const photo = await Photo.findById(id); 
+
+     // check if photo exist 
+    if (!photo) {
+            res.status(404).json({ errors: ["Foto não encontrada"] }); 
+            return; 
+    }
+
+    // Put comment in the array comments 
+    
+    const userComent = {
+        comment: comment,
+        userName: user.name,
+        userImage: user.profileImage,
+        userId: user._id
+    }
+
+    photo.comments.push(userComent)
+
+    await photo.save(); 
+
+    res.status(200).json({
+        Comment: comment, 
+        message: "O comentario foi adicionado com sucesso!",
+    });
+}
+
+//  Search photos by title 
+
+const searchPhotos =  async (req, res) => {
+   const { q } = req.query
+ 
+   const photos = await Photo.find({title: new RegExp(q, "i")}).exec(); 
+
+   res.status(200).json(photos);
 
 }
 
@@ -166,4 +214,6 @@ module.exports = {
     getPhotoById,
     updatePhoto,
     likePhoto,
+    commentPhoto,
+    searchPhotos,
 }; 
