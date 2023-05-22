@@ -1,0 +1,10 @@
+//  1 - limpando configuraçoes do react.js 
+
+//  2 -  condig de react router
+
+//  3 - criaçao do nav bar e do footer, e a nav bar com icons 
+
+//  4 - css da footer e da navbar 
+
+
+
