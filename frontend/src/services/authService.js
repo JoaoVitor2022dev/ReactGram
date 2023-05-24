@@ -11,6 +11,7 @@ const register = async (data) => {
      .then((res) => res.json())
      .catch((err) => err ); 
  
+     // putting toke in localStorage and authenticating the user
      if (res) {
         localStorage.setItem("user", JSON.stringify(res)); 
      }
