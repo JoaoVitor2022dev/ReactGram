@@ -7,12 +7,20 @@ import { Link } from "react-router-dom"
 // hook 
 import { useState, useEffect } from "react"
 
+// redux 
+import { register, reset } from "../../slices/authSlice"
+import { useSelector, useDispatch } from "react-redux"
 
 const Register = () => {
   const [name, setName] = useState(""); 
   const [email, setEmail] = useState(""); 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState(""); 
+
+  // contexto do redux 
+  const dispatch = useDispatch(); 
+
+  const { loading, error } = useSelector((state) => state.auth);
  
   // function de envio 
   const handleSubmit = (event) => {
@@ -27,7 +35,13 @@ const Register = () => {
 
     console.log(user);
 
+    dispatch(register(user)); 
   }; 
+
+  // clear (error,data,loading) for a new request / clean all states 
+  useEffect(() => {
+   dispatch(reset());
+  },[dispatch])
 
   return (
     <div id="register">
