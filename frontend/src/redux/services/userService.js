@@ -1,24 +1,25 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { api, requestConfig } from "../../utils/config"; 
 
-const initialState = {
-    user: {},
-    error: false,
-    loading: false,
-    message: null
+// Get user details 
+
+const profile = async (data, token) => {
+   const config = requestConfig("GET", data, token);
+
+   try {
+     
+    const res = await fetch(api + "/users/profile", config)
+          .then((res) => res.json())
+          .catch((err) => err ); 
+  
+    return res;       
+   
+   } catch (error) {
+      console.log(error);
+   }
 };
 
-// fucntion 
+const userService = {
+    profile,
+}
 
-export const userSlice = createAsyncThunk({ 
-    name: "user",
-    initialState,
-    reducers: {
-        resetMessage: (statte) => {
-            statte.message = null 
-        }
-    }
-}); 
-
-export const { resetMessage } = userSlice.actions 
-export default userSlice.reducers;
-
+export default userService;
