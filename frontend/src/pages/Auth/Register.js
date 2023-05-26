@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 
 // redux 
-import { register, reset } from "../../slices/authSlice"
+import { register, reset } from "../../redux/slices/authSlice"
 import { useSelector, useDispatch } from "react-redux"
 
 // Message 

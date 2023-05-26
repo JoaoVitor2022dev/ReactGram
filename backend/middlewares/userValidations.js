@@ -17,7 +17,7 @@ const userCreateValidation = () => {
 const loginValidation = () => { 
    return [
       body("email").isString().withMessage("O e-mail é obrigatório").isEmail().withMessage("Insira um e-mail Valido."), 
-      body("password").isString().withMessage("A senha é obrigatoria"), 
+      body("password").isString().withMessage("A senha é obrigatório.").isLength({ min: 5 }).withMessage("A senha está com menos de 5 caracteres, senha incorreta! "),
    ]; 
 };
 

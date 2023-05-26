@@ -53,11 +53,20 @@ const register = async (req, res) => {
     }) 
 }
 
+//  get current logged in user 
+const getCurrentUser = async (req, res) => {  
+    
+    const user = req.user; 
+    
+    res.status(200).json(user);
+}; 
+
+
 const login = async (req, res) => { 
     
     const { email, password } = req.body; 
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email});
 
     // check if user exist
     if (!user) {
@@ -65,10 +74,9 @@ const login = async (req, res) => {
         return
     }
 
-    // check if password matches
-    if (!bcrypt.compare(password, user.password)) {
-        res.status(422).json({ erros: ["Senha inválida."]})
-        return
+    if (!(await bcrypt.compare(password, user.password))) {
+         res.status(422).json({ errors: [`${user.name} sua senha esta incorreta.`]});
+         return;
     }
 
     // return user with token 
@@ -77,15 +85,6 @@ const login = async (req, res) => {
         profileImage: user.profileImage,
         token: generateToken(user._id),
     }) 
-}; 
-
-
-//  get current logged in user 
-const getCurrentUser = async (req, res) => {  
-    
-  const user = req.user; 
-  
-  res.status(200).json(user);
 }; 
 
 
