@@ -18,30 +18,31 @@ export const profile = createAsyncThunk("user/profile", async (user, thunkAPI) =
 
     return data;
 });  
-
-export const userSlice = createAsyncThunk({ 
+export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        resetMessage: (statte) => {
-            statte.message = null 
+        resetMessage: (state) => {
+           state.message = false; 
+
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(profile.pending, (state) => { // loading
-            state.loading = true; 
-            state.error = false;
- 
-        }).addCase(profile.fulfilled, (state, action) => { // sucess
-            state.loading = false;  
-            state.success = true;  
-            state.error = null; 
-            state.user = action.payload;
- 
-        }); 
-    },
-}); 
+       builder.addCase(profile.pending, (state) => { // loading
+           state.loading = true; 
+           state.error = false;
 
-export const { resetMessage } = userSlice.actions 
-export default userSlice.reducers;
+       }).addCase(profile.fulfilled, (state, action) => { // sucess
+           state.loading = false;  
+           state.success = true;  
+           state.error = null; 
+           state.user = action.payload;
+
+       })
+    }
+});
+
+export const { resetMessage } = userSlice.actions
+export default userSlice.reducer;
+
 

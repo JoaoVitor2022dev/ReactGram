@@ -4,7 +4,7 @@ import {configureStore} from "@reduxjs/toolkit"
 import authReducer from "./redux/slices/authSlice";
 
 // dados do usuario 
-import userReducer from  "./redux/slices/userSlice";
+import userReducer from "./redux/slices/userSlice";
 
 export const store =  configureStore({
     reducer: {
