@@ -13,8 +13,8 @@
 }
 
 .profile-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    border-radius: 10%;
     margin-bottom: 1em;
 }
