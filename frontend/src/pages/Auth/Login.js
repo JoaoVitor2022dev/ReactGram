@@ -58,7 +58,7 @@ useEffect(() => {
           onChange={(e) => setPassword(e.target.value)} 
           value={password || ""}
           />
-          {!loading && <input type="submit" value="Cadastrar"/>}
+          {!loading && <input type="submit" value="Entrar"/>}
           {loading &&  <input type="submit" value="Aguarde..." disabled/>}
           {error && <Message msg={error} type="error"/>}
        </form>
