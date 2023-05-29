@@ -19,7 +19,7 @@ export const profile = createAsyncThunk("user/profile", async (user, thunkAPI) =
     return data;
 });  
 
-// 1 - update user details
+//  update user details
 
 export const updateProfile = createAsyncThunk("user/update", async (user, thunkAPI) => {
      
@@ -34,6 +34,16 @@ export const updateProfile = createAsyncThunk("user/update", async (user, thunkA
     
    return data;
 }); 
+
+
+// Get user details 
+
+export const getUserDetails = createAsyncThunk("user/get", async(id, thunkAPI) => { 
+
+    const data = await userService.getUserDetails(id); 
+
+    return data;
+})
 
 
 export const userSlice = createSlice({
@@ -71,7 +81,17 @@ export const userSlice = createSlice({
         state.loading = false; 
         state.error = action.payload;
         state.user = {};
-       })
+
+       }).addCase(getUserDetails.pending, (state) => { // loading
+        state.loading = true; 
+        state.error = false;
+
+    }).addCase(getUserDetails.fulfilled, (state, action) => { // sucess
+        state.loading = false;  
+        state.success = true;  
+        state.error = null; 
+        state.user = action.payload;
+    })
     }
 });
 
