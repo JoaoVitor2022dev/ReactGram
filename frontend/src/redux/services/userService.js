@@ -38,7 +38,7 @@ const updateProfile = async (data, token) => {
 
 };
 
-// Get user details 
+// Get user details - show data perfil 
 
 const getUserDetails = async (id) => {
     
