@@ -7,4 +7,10 @@
 //  4 - css da footer e da navbar 
 
 
+//   
+
+
+page - (profile)server para colocar fotos na conta do usuario 
+page - (editProfile) servide para editar os dado do tal usuario logado 
+page - 
 
