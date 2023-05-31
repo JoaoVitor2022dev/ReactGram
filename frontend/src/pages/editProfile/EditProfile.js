@@ -99,7 +99,6 @@ const EditProfile = () => {
       // update image state 
       setProfileImage(image);
 
-
     };
      
   return (
