@@ -21,7 +21,7 @@ import { useSelector, useDispatch } from "react-redux"
 
 // redux 
 import { getUserDetails } from "../../redux/slices/userSlice";
-import { publishPhoto, resetMessage, getUserPhotos } from "../../redux/slices/photoSlice";
+import { publishPhoto, resetMessage, getUserPhotos, deletePhoto } from "../../redux/slices/photoSlice";
 
 const Profile = () => {
  
@@ -88,6 +88,20 @@ const Profile = () => {
 
   }
 
+ 
+  const reseteComponentMessage = () => {
+    setTimeout(() => {
+      dispatch(resetMessage());
+   }, 2000);
+  }
+
+  // Delete a photo
+   
+  const handleDelete = (id) => {
+    dispatch(deletePhoto(id))
+
+    reseteComponentMessage(); 
+  };
 
   if (loading) {
     return <p>Carregando...</p>;
@@ -138,7 +152,7 @@ const Profile = () => {
                           <BsFillEyeFill/>
                          </Link>
                          <BsPencilFill/>
-                         <BsXLg/>
+                         <BsXLg onClick={() => handleDelete(photo._id)}/>
                      </div> 
                      : <Link className="btn" to={`/photos/${photo._id}`}>Ver</Link>}
                  </div>
