@@ -53,7 +53,7 @@ const deletePhoto = async (id, token) => {
 
 // edit a photo 
 
-const editPhoto = async (id, data, token) => {
+const updatePhoto = async (id, data, token) => {
  
    const config = requestConfig("PUT", data, token)
 
@@ -75,7 +75,7 @@ const photoService = {
     publishPhoto,
     getUserPhotos,
     deletePhoto,
-    editPhoto,
+    updatePhoto,
 }; 
 
 export default photoService; 
