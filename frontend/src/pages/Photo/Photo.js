@@ -4,7 +4,7 @@ import "./Photo.css"
 import {uploads} from "../../utils/config"; 
 
 // Message 
-import Message from "../../components/Message/Message"; 
+import Message from "../../components/Message/Message";
 
 // react router
 import { useParams } from "react-router-dom";
@@ -17,10 +17,15 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // redux 
-import { getPhoto } from "../../redux/slices/photoSlice";
+import { getPhoto, likes } from "../../redux/slices/photoSlice";
+
+// likes
+import LikesContainer from "../../components/LikesContainer/LikesContainer";
 
 // photo itens
 import PhotoItem from "../../components/PhotoItem.js/PhotoItem";
+
+
 
 const Photo = () => {
 
@@ -29,7 +34,7 @@ const Photo = () => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth); 
-  const { photo,loading, error, message } = useSelector((state) => state.photo)
+  const { photo , loading, error, message } = useSelector((state) => state.photo)
 
   // comments 
 
@@ -39,7 +44,10 @@ const Photo = () => {
   },[dispatch, id])
 
 
-  // like e comentario
+    // like function 
+    const handleLike = () => {
+       dispatch(likes(photo._id))
+    };
 
 
   if (loading) {
@@ -49,6 +57,12 @@ const Photo = () => {
   return (
     <div id="photo" >
         <PhotoItem photo={photo}/>
+        <LikesContainer photo={photo} user={user} handleLike={handleLike}/>
+        <div className="message-container">
+          {error && <Message msg={error} type="error"/>}
+          {message && <Message msg={message} type="sucess"/>}
+          {console.log(error, message)}
+        </div>
     </div>
   )
 }

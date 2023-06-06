@@ -20,7 +20,7 @@ export const publishPhoto = createAsyncThunk("photo/public", async (photo, thunk
  
     // check for erros
     if (data.errors) {
-        return thunkAPI.rejectWithValue(data.errors[0])
+        return thunkAPI.rejectWithValue(data.errors[0]); 
     }
     return data;
 })
@@ -79,6 +79,21 @@ export const getPhoto = createAsyncThunk("photo/getPhoto", async(id, thunkAPI) =
     
    return data;
 })
+
+
+// Like a fhoto 
+export const likes = createAsyncThunk("photo/like", async (id, thunkAPI) => {
+   
+   const token = thunkAPI.getState().auth.user.token; 
+
+   const data = await photoService.getPhoto(id, token); 
+
+    // check error
+    if (data.errors) {
+        return thunkAPI.rejectWithValue(data.error[0]);        
+    }
+   return data; 
+});
 
 
 export const photoSlice = createSlice({
@@ -150,7 +165,7 @@ export const photoSlice = createSlice({
  
            state.photos.map((photo) => {
              if (photo._id === action.payload.photo.id) {
-                return (photo.title = action.payload.photo.title)
+                return (photo.title = action.payload.photo.title);
              }
              return photo;
            })
@@ -171,7 +186,33 @@ export const photoSlice = createSlice({
             state.success = true;  
             state.error = null; 
             state.photo = action.payload;
-        })
+
+        }).addCase(likes.fulfilled, (state, action) => { // sucess  
+            state.loading = false;  
+            state.success = true;  
+            state.error = null; 
+ 
+            if (state.photo.likes) {
+                state.photo.likes.push(action.payload.userId); 
+            }
+
+            state.photos.map((photo) => {
+                if (photo._id === action.payload.photoId) {
+                return photo.likes.push(action.payload.userId);
+                }
+                return photo
+            });
+
+              state.message = "Foto foi curtida"
+
+            console.log(action.payload);
+
+           }).addCase(likes.rejected, (state, action) => {  // error
+            console.log(state, action);
+            state.loading = false; 
+            state.error = action.payload;
+            state.photo = {};    
+       })
     }  
 });
 
