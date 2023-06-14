@@ -26,6 +26,11 @@
 .author {
     display: flex;
     font-weight: bold;
+    text-align: center;
+}
+
+.author p {
+    margin-left: 1em ;
 }
 
 #photo .author img {

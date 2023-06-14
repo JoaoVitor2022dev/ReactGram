@@ -11,7 +11,6 @@ const initialState = {
 }
 
 // publish user photo 
-
 export const publishPhoto = createAsyncThunk("photo/public", async (photo, thunkAPI) => {
      
     const token = thunkAPI.getState().auth.user.token; 
@@ -86,7 +85,7 @@ export const likes = createAsyncThunk("photo/like", async (id, thunkAPI) => {
    
    const token = thunkAPI.getState().auth.user.token; 
 
-   const data = await photoService.getPhoto(id, token); 
+   const data = await photoService.like(id, token); 
 
     // check error
     if (data.errors) {
@@ -94,6 +93,35 @@ export const likes = createAsyncThunk("photo/like", async (id, thunkAPI) => {
     }
    return data; 
 });
+
+// comments 
+
+export const coments = createAsyncThunk("photo/coments", async(id, thunkAPI)  => {
+
+    const token = thunkAPI.getState().auth.user.token; 
+
+    const data= await photoService.coments(id, token); 
+
+    // check error
+    if (data.errors) {
+        return thunkAPI.rejectWithValue(data.error[0])
+    }
+
+    return data;
+}) 
+
+
+// Get all photos
+
+export const getPhotos = createAsyncThunk("photo/getall", async(_,thunkAPI) => {
+ 
+    const token = thunkAPI.getState().auth.user.token; 
+
+    const data = await photoService.getPhotos(token);
+
+    return data;   
+})
+
 
 
 export const photoSlice = createSlice({
@@ -207,12 +235,36 @@ export const photoSlice = createSlice({
 
             console.log(action.payload);
 
-           }).addCase(likes.rejected, (state, action) => {  // error
+        }).addCase(likes.rejected, (state, action) => {  // error
             console.log(state, action);
             state.loading = false; 
             state.error = action.payload;
             state.photo = {};    
-       })
+        }).addCase(coments.pending, (state) => { // loading
+            state.loading = true; 
+            state.error = false;
+
+           }).addCase(coments.fulfilled, (state, action) => { // sucess
+            state.loading = false;  
+            state.success = true;  
+            state.error = null; 
+            state.photo = action.payload;
+            state.message = "Foto comentada com sucesso"
+
+       }).addCase(coments.rejected, (state, action) => {  // error
+           state.loading = false; 
+           state.error = action.payload;
+           state.photo = {};
+       }).addCase(getPhotos.pending, (state) => { // loading
+           state.loading = true; 
+           state.error = false;
+
+       }).addCase(getPhotos.fulfilled, (state, action) => { // sucess
+           state.loading = false;  
+           state.success = true;  
+           state.error = null; 
+           state.photos = action.payload;
+    })
     }  
 });
 
